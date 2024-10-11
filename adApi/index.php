@@ -16,7 +16,7 @@
         return json_encode($account->getArray());
     });
 
-    Route::run('/adApi');
+    Route::run('/adApi/adApi');
     $db->close();
 ?>
  
