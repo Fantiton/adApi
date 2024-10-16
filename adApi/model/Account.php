@@ -15,7 +15,7 @@
         }
 
         public static function getAccount(int $accountNo, mysqli $db) : Account {
-            $result = $db->query("SELECT * FROM account WHERE accountNo = $accountNo");
+            $result = $db->query("SELECT * FROM accounts WHERE accountNo = $accountNo");
             $account = $result->fetch_assoc();
             $account = new Account($account['accountNo'], $account['amount'], $account['name']);
             return $account;

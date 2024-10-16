@@ -10,6 +10,10 @@
         echo 'rizz';
     });
 
+    Route::add('/login', function(){
+        
+    }, 'post');
+
     Route::add('/account/([0-9]*)', function($accountNo) use($db) {
         $account = Account::getAccount($accountNo, $db);
         header('Content-Type: application/json');
