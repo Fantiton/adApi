@@ -1,13 +1,5 @@
 <?php 
-    namespace AdApi;
-
-    use mysqli;
-
     Class User {
-        private $id;
-        private $email;
-        private $passwordHash;
-
         static function login(string $login, string $password, mysqli $db) : int{
             $sql = "SELECT id, passwordHash FROM user WHERE email = ?";
             $query = $db->prepare($sql);
