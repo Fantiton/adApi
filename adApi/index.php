@@ -1,6 +1,8 @@
 <?php
     require_once("Route.php");
     require_once("model\Account.php");
+    require_once("model\User.php");
+    require_once("model\Token.php");
     $db = new mysqli('localhost', 'root', '', 'filip_ad_api');
 
     use Steampixel\Route;
@@ -11,7 +13,7 @@
     });
 
     Route::add('/login', function(){
-        
+        return var_dump($_POST);
     }, 'post');
 
     Route::add('/account/([0-9]*)', function($accountNo) use($db) {
