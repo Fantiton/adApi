@@ -1,10 +1,10 @@
 <?php 
     Class Token {
-        static function new(string $ip, int $userId) : string {
+        static function new(int $userId, string $ip, mysqli $db) : string {
             $hash = hash('sha256', $ip . $userId . time());
-            $sql = "INSERT INTO token (token, ip, userId) VALUES (?, ?, ?)";
+            $sql = "INSERT INTO token (token, ip, user_id) VALUES (?, ?, ?)";
             $query = $db->prepare($sql);
-            $query->bind_program('ssi', $hash, $ip, $userId);
+            $query->bind_param('ssi', $hash, $ip, $userId);
 
             if (!$query->execute()) {
                 throw new Exeption('Could not create token');

@@ -12,8 +12,21 @@
         echo 'rizz';
     });
 
-    Route::add('/login', function(){
-        return var_dump($_POST);
+    Route::add('/login', function() use($db) {
+
+        $data = file_get_contents('php://input');
+        $data = json_decode($data, true);
+        $ip = $_SERVER['REMOTE_ADDR'];
+        try{
+            $id = User::login($data['login'], $data['password'], $db);
+            $token = Token::new($id, $ip, $db);
+            header('Content-Type: application/json');
+            return json_encode(['token' => $token]);
+        } catch(Exception $e){
+            header('Content-Type: application/json');
+            return json_encode(['error' => $e->getMessage()]);
+        }
+        var_dump($data);
     }, 'post');
 
     Route::add('/account/([0-9]*)', function($accountNo) use($db) {

@@ -12,7 +12,6 @@
                 $user = $result->fetch_assoc();
                 $id = $user['id'];
                 $hash = $user['passwordHash'];
-
                 if(password_verify($password, $hash)){
                     return $id;
                 } else{
