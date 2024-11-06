@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lis 06, 2024 at 10:00 AM
+-- Generation Time: Lis 06, 2024 at 10:35 AM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -72,6 +72,20 @@ INSERT INTO `token` (`id`, `token`, `ip`, `user_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `transfer`
+--
+
+CREATE TABLE `transfer` (
+  `id` int(11) NOT NULL,
+  `source` int(11) NOT NULL COMMENT 'rachunek wysyłający',
+  `target` int(11) NOT NULL COMMENT 'rachunek odbierający',
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'czas transakcji',
+  `amount` int(11) NOT NULL COMMENT 'kwota w groszach'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `user`
 --
 
@@ -108,6 +122,14 @@ ALTER TABLE `token`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indeksy dla tabeli `transfer`
+--
+ALTER TABLE `transfer`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `source` (`source`),
+  ADD KEY `target` (`target`);
+
+--
 -- Indeksy dla tabeli `user`
 --
 ALTER TABLE `user`
@@ -122,6 +144,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `token`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `transfer`
+--
+ALTER TABLE `transfer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -144,6 +172,13 @@ ALTER TABLE `accounts`
 --
 ALTER TABLE `token`
   ADD CONSTRAINT `token_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `transfer`
+--
+ALTER TABLE `transfer`
+  ADD CONSTRAINT `transfer_ibfk_1` FOREIGN KEY (`source`) REFERENCES `accounts` (`accountNo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `transfer_ibfk_2` FOREIGN KEY (`target`) REFERENCES `accounts` (`accountNo`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
