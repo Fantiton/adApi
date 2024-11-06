@@ -21,12 +21,12 @@
             $id = User::login($data['login'], $data['password'], $db);
             $token = Token::new($id, $ip, $db);
             header('Content-Type: application/json');
-            return json_encode(['token' => $token]);
+            echo json_encode(['token' => $token]);
         } catch(Exception $e){
             header('Content-Type: application/json');
-            return json_encode(['error' => $e->getMessage()]);
+            echo json_encode(['error' => $e->getMessage()]);
+            return;
         }
-        var_dump($data);
     }, 'post');
 
     Route::add('/account/details', function() use($db) {

@@ -7,7 +7,7 @@
             $query->execute();
             $result = $query->get_result();
             if ($result->num_rows == 0) {
-                throw new Exeption('Invalid login or poassword');
+                throw new Exeption('Invalid login or password');
             }else{
                 $user = $result->fetch_assoc();
                 $id = $user['id'];
@@ -15,10 +15,9 @@
                 if(password_verify($password, $hash)){
                     return $id;
                 } else{
-                    throw new Exeption('Invalid login or poassword');
+                    throw new Exception('Invalid login or password');
                 }
-
-            } 
+            }  
         }
     }
 ?>
