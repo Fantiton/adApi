@@ -60,7 +60,7 @@
         $amount = $dataArray['amount'];
 
         Transfer::new($source, $target, $amount, $db);
-        header('Content-Type: application/json');
+        header('Status: 200');
         return json_encode(['status' => 'ok']);
     }, 'post');
 
