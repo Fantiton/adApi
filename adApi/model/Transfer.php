@@ -3,12 +3,12 @@ class Transfer {
     public static function new(int $source, int $target, int $amount, mysqli $db) : void {
         $db->begin_transaction();
         try {
-            $sql = "UPDATE account SET amount = amount - ? WHERE accountNo = ?";
+            $sql = "UPDATE accounts SET amount = amount - ? WHERE accountNo = ?";
             $query = $db->prepare($sql);
             $query->bind_param('ii', $amount, $source);
             $query->execute();
 
-            $sql = "UPDATE account SET amount = amount + ? WHERE accountNo = ?";
+            $sql = "UPDATE accounts SET amount = amount + ? WHERE accountNo = ?";
             $query = $db->prepare($sql);
             $query->bind_param('ii', $amount, $target);
             $query->execute();
@@ -22,7 +22,6 @@ class Transfer {
             $db->rollback();
             throw new Exception('Transfer failed');
         }
-        
     }
 }
 ?>
