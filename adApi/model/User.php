@@ -15,7 +15,7 @@ class User {
             if(password_verify($password, $hash)) {
                 return $id;
             } else {
-                throw new Exception('Invalid or password');
+                throw new Exception('Invalid login or password');
             }
         }
     }
