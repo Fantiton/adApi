@@ -49,17 +49,29 @@
         $token = $dataArray['token']; 
 
         if(!Token::check($token, $_SERVER['REMOTE_ADDR'], $db)){
-            header('Content-Type: application/json');
+            header('HTTP/1.1 401 Unauthorized');
             return json_encode(['error' => 'Invalid token']);
         }
 
-        $userId = Token::getUserId($token, $db);
-        $source = Account::getAccountNo($userId, $db);
 
+        $userId = Token::getUserId($token, $db);
+        $sourceAccount = Account::getAccount(Account::getAccountNo($userId, $db), $db);
+        $sourceArray = $sourceAccount->getArray();
+        
         $target = $dataArray['target'];
         $amount = $dataArray['amount'];
 
-        Transfer::new($source, $target, $amount, $db);
+        if($amount <= 0){
+            header('HTTP/1.1 400 Bad Request');
+            return json_encode(['error' => 'Invalid amount']);
+        }
+
+        if($sourceArray['amount'] < $amount){
+            header('HTTP/1.1 400 Bad Request');
+            return json_encode(['error' => 'Insufficient funds']);
+        }
+
+        Transfer::new($sourceArray['accountNo'], $target, $amount, $db);
         header('Status: 200');
         return json_encode(['status' => 'ok']);
     }, 'post');
