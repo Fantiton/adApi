@@ -1,5 +1,17 @@
 <?php
+/**
+ * Class Transfer for handling transfers
+ */
 class Transfer {
+    /**
+     * Create a new transfer
+     * @param int $source Source account number
+     * @param int $target Target account number
+     * @param int $amount Amount to transfer
+     * @param mysqli $db Database connection
+     * 
+     * @return void
+     */
     public static function new(int $source, int $target, int $amount, mysqli $db) : void {
         $db->begin_transaction();
         try {

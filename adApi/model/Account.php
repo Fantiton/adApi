@@ -3,17 +3,33 @@
 
     use mysqli;
 
+    /**
+     * Class Account for handling accounts
+     */
     Class Account {
         private $accountNo;
         private $amount;
         private $name;
 
+        /**
+         * Create a new account
+         * @param int $accountNo Account number
+         * @param int $amount Amount on account
+         * @param string $name Account name
+         */
         public function __construct($accountNo, $amount, $name){
             $this->accountNo = $accountNo;
             $this->amount = $amount;
             $this->name = $name;
         }
 
+        /**
+         * Get account number
+         * @param int $userId User id
+         * @param mysqli $db Database connection
+         * 
+         * @return int Account number
+         */
         public static function getAccountNo(int $userId, mysqli $db) : int {
             $sql = "SELECT accountNo FROM accounts WHERE user_id = ? LIMIT 1";
             $query = $db->prepare($sql);
@@ -24,6 +40,13 @@
             return $row['accountNo'];
         }
 
+        /**
+         * Get account object by account number
+         * @param int $accountNo Account number
+         * @param mysqli $db Database connection
+         * 
+         * @return Account Account object
+         */
         public static function getAccount(int $accountNo, mysqli $db) : Account {
             $result = $db->query("SELECT * FROM accounts WHERE accountNo = $accountNo");
             $account = $result->fetch_assoc();
@@ -31,6 +54,11 @@
             return $account;
         }
 
+        /**
+         * Get account as array
+         * 
+         * @return array Account as array
+         */
         public function getArray() : array {
             $array = [
                 'accountNo' => $this->accountNo,

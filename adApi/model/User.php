@@ -1,5 +1,16 @@
 <?php
+/**
+ * Class User for handling user login
+ */
 class User {
+    /**
+     * Login user
+     * @param string $login User login
+     * @param string $password User password
+     * @param mysqli $db Database connection
+     * 
+     * @return int User id
+     */
     static function login(string $login, string $password, mysqli $db) : int {
         $sql = "SELECT id, passwordHash FROM user WHERE email = ?";
         $query = $db->prepare($sql);
