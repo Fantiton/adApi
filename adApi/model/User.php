@@ -1,4 +1,5 @@
 <?php
+    namespace AdApi;
 /**
  * Class User for handling user login
  */

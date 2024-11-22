@@ -1,4 +1,5 @@
 <?php
+    namespace AdApi;
 /**
  * Class Transfer for handling transfers
  */

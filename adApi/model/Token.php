@@ -1,4 +1,5 @@
 <?php 
+    namespace AdApi;
     /**
      * Class Token for creating and checking tokens
      */

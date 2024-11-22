@@ -4,6 +4,7 @@
     require_once("model\User.php");
     require_once("model\Token.php");
     require_once("model\Transfer.php");
+    require_once("class\LoginRequest.php");
     $db = new mysqli('localhost', 'root', '', 'filip_ad_api');
 
     use Steampixel\Route;
@@ -15,10 +16,10 @@
 
     Route::add('/login', function() use($db) {
         $data = file_get_contents('php://input');
-        $data = json_decode($data, true);
+        $request = new LoginRequest($data);
         $ip = $_SERVER['REMOTE_ADDR'];
         try{
-            $id = User::login($data['login'], $data['password'], $db);
+            $id = User::login($request->getLogin(), $request->getPassword, $db);
             $token = Token::new($id, $ip, $db);
             header('Content-Type: application/json');
             echo json_encode(['token' => $token]);
