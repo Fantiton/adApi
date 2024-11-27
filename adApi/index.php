@@ -5,6 +5,7 @@
     require_once("model\Token.php");
     require_once("model\Transfer.php");
     require_once("class\LoginRequest.php");
+    require_once("class\LoginResponse.php");
 
     use Steampixel\Route;
     use AdApi\Account;
@@ -12,7 +13,7 @@
     use AdApi\Token;
     use AdApi\Transfer;
     use AdApi\LoginRequest;
-
+    use AdApi\LoginResponse;
     
     $db = new mysqli('localhost', 'root', '', 'filip_ad_api');
 
@@ -23,15 +24,15 @@
     Route::add('/login', function() use($db) {
         $data = file_get_contents('php://input');
         $request = new LoginRequest($data);
-        $ip = $_SERVER['REMOTE_ADDR'];
         try{
             $id = User::login($request->getLogin(), $request->getPassword(), $db);
+            $ip = $_SERVER['REMOTE_ADDR'];
             $token = Token::new($id, $ip, $db);
-            header('Content-Type: application/json');
-            echo json_encode(['token' => $token]);
+            $response = new LoginResponse($token, "");
+            $response->send();
         } catch(Exception $e){
-            header('Content-Type: application/json');
-            echo json_encode(['error' => $e->getMessage()]);
+            $response = new LoginResponse("", $e->getMessage());
+            $response->send();
             return;
         }
     }, 'post');

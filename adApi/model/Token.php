@@ -34,7 +34,7 @@
          * 
          * @return bool True if token is valid, False if not
          */
-        static function check(string $token, string $ip, mysqli $db) : bool{
+        static function check(string $token, string $ip, $db) : bool{
             $sql = "SELECT * FROM token Where token = ? AND ip = ?";
             $query = $db->prepare($sql);
             $query->bind_param('ss', $token, $ip);
@@ -55,7 +55,7 @@
          * 
          * @return int User id
          */
-        static function getUserId(string $token, mysqli $db) : int{
+        static function getUserId(string $token, $db) : int{
             $sql = "SELECT user_id FROM token WHERE token = ? ORDER BY id DESC LIMIT 1";
             $query = $db->prepare($sql);
             $query->bind_param('s', $token);

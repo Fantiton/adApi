@@ -13,7 +13,7 @@ class Transfer {
      * 
      * @return void
      */
-    public static function new(int $source, int $target, int $amount, mysqli $db) : void {
+    public static function new(int $source, int $target, int $amount, $db) : void {
         $db->begin_transaction();
         try {
             $sql = "UPDATE accounts SET amount = amount - ? WHERE accountNo = ?";

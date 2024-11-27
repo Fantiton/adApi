@@ -30,7 +30,7 @@
          * 
          * @return int Account number
          */
-        public static function getAccountNo(int $userId, mysqli $db) : int {
+        public static function getAccountNo(int $userId, $db) : int {
             $sql = "SELECT accountNo FROM accounts WHERE user_id = ? LIMIT 1";
             $query = $db->prepare($sql);
             $query->bind_param('i', $userId);
@@ -47,7 +47,7 @@
          * 
          * @return Account Account object
          */
-        public static function getAccount(int $accountNo, mysqli $db) : Account {
+        public static function getAccount(int $accountNo, $db) : Account {
             $result = $db->query("SELECT * FROM accounts WHERE accountNo = $accountNo");
             $account = $result->fetch_assoc();
             $account = new Account($account['accountNo'], $account['amount'], $account['name']);
