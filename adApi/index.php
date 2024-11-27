@@ -6,6 +6,8 @@
     require_once("model\Transfer.php");
     require_once("class\LoginRequest.php");
     require_once("class\LoginResponse.php");
+    require_once("class\AccountDetailsRequest.php");
+    require_once("class\AccountDetailsResponse.php");
 
     use Steampixel\Route;
     use AdApi\Account;
@@ -14,6 +16,8 @@
     use AdApi\Transfer;
     use AdApi\LoginRequest;
     use AdApi\LoginResponse;
+    use AdApi\AccountDetailsRequest;
+    use AdApi\AccountDetailsResponse;   
     
     $db = new mysqli('localhost', 'root', '', 'filip_ad_api');
 
@@ -38,17 +42,18 @@
     }, 'post');
 
     Route::add('/account/details', function() use($db) {
-        $data = file_get_contents('php://input');                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-        $dataArray = json_decode($data, true);
-        $token = $dataArray['token'];
-        if(!Token::check($token, $_SERVER['REMOTE_ADDR'], $db)){
-            header('Content-Type: application/json');
-            return json_encode(['error' => 'Invalid token']);
+        $request = new AccountDetailsRequest();
+        $response = new AccountDetailsResponse();
+        if(!Token::check($request->getToken(), $_SERVER['REMOTE_ADDR'], $db)){
+            $response
         }
-        $userId = Token::getUserId($token, $db);
+
+        $userId = Token::getUserId($request->getToken(), $db);
         $accountNo = Account::getAccountNo($userId, $db);
         $account = Account::getAccount($accountNo, $db);
-        return json_encode($account->getArray());
+
+        $response->setAccount($account);
+        $response->send();
     }, 'post');
 
     Route::add('/transfer/new', function() use($db) {
