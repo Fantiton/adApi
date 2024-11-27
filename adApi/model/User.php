@@ -1,5 +1,7 @@
 <?php
     namespace AdApi;
+    use mysqli;
+    use Exception;
 /**
  * Class User for handling user login
  */
@@ -12,7 +14,7 @@ class User {
      * 
      * @return int User id
      */
-    static function login(string $login, string $password, mysqli $db) : int {
+    static function login(string $login, string $password, $db) : int {
         $sql = "SELECT id, passwordHash FROM user WHERE email = ?";
         $query = $db->prepare($sql);
         $query->bind_param('s', $login);

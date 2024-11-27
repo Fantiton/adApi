@@ -13,7 +13,7 @@
          * 
          * @return string Token
          */
-        static function new(int $userId, string $ip, mysqli $db) : string {
+        static function new(int $userId, string $ip, $db) : string {
             $hash = hash('sha256', $ip . $userId . time());
             $sql = "INSERT INTO token (token, ip, user_id) VALUES (?, ?, ?)";
             $query = $db->prepare($sql);
