@@ -45,14 +45,14 @@
         $request = new AccountDetailsRequest();
         $response = new AccountDetailsResponse();
         if(!Token::check($request->getToken(), $_SERVER['REMOTE_ADDR'], $db)){
-            $response
+            $response->setError('Invalid token');
         }
 
         $userId = Token::getUserId($request->getToken(), $db);
         $accountNo = Account::getAccountNo($userId, $db);
         $account = Account::getAccount($accountNo, $db);
 
-        $response->setAccount($account);
+        $response->setAccount($account->getArray());
         $response->send();
     }, 'post');
 

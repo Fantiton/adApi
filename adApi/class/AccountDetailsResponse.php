@@ -2,28 +2,29 @@
 namespace AdApi;
 use mysqli;
 
-class AccountDetailsResponse{
+class AccountDetailsResponse {
     private array $account;
     private string $error;
 
-    public function __construct(){
-        
+    public function __construct() {
+        $this->error = "";
     }
-    public function getJSON(){
+    public function getJSON() {
+        $array = array();
         $array['account'] = $this->account;
-        $array['error'] = $this->error; 
-        return json_encode($array); 
+        $array['error'] = $this->error;
+        return json_encode($array);
     }
-    public function setAccount(array $account){
+    public function setAccount(array $account) {
         $this->account = $account;
     }
-    public function setError(string $error){
+    public function setError(string $error) {
         $this->error = $error;
     }
     public function send() {
-        if($this->error != ""){
+        if($this->error != "") {
             header('HTTP/1.1 401 Unauthorized');
-        }else{
+        } else {
             header('HTTP/1.1 200 OK');
         }
         header('Content-Type: application/json');
