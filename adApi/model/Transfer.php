@@ -37,6 +37,13 @@ class Transfer {
         }
     }
 
+    /**
+     * Get all transfers for an account
+     * @param int $accountNo Account number
+     * @param mysqli $db Database connection
+     * 
+     * @return array Array of all transfers
+     */
     public static function getTransfers(int $accountNo, $db) : array {
         $sql = "SELECT * FROM transfer WHERE source = ? OR target = ?";
         $query = $db->prepare($sql);
