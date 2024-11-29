@@ -27,12 +27,26 @@ class TransferHistoryResponse {
         $array['error'] = $this->error;
         return json_encode($array);
     }
+
+    /**
+     * Metoda do ustawiania transferów
+     * @param array $transfers tablica transferów
+     */
     public function setTransfers(array $transfers) {
         $this->transfers = $transfers;
     }
+
+    /**
+     * Metoda do ustawiania błędu
+     * @param string $error błąd
+     */
     public function setError(string $error) {
         $this->error = $error;
     }
+
+    /**
+     * Metoda do wysyłania odpowiedzi
+     */
     public function send() {
         if($this->error != "") {
             header('HTTP/1.1 401 Unauthorized');
