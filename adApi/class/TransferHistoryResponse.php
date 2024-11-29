@@ -10,7 +10,9 @@ class TransferHistoryResponse {
     private array $transfers;
     private string $error;
 
-
+    /**
+     * Konstruktor klasy TransferHistoryResponse
+     */
     public function __construct() {
         $this->error = "";
     }
