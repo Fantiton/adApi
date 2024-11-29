@@ -16,6 +16,11 @@ class TransferHistoryResponse {
     public function __construct() {
         $this->error = "";
     }
+
+    /**
+     * Metoda do pobierania zawartości klasy w JSON
+     * @return string JSON zawierający zawartość klasy
+     */
     public function getJSON() {
         $array = array();
         $array['transfers'] = $this->transfers;
