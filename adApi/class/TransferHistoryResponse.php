@@ -2,9 +2,14 @@
 namespace AdApi;
 use mysqli;
 
+/**
+ * Class TransferHistoryResponse
+ * klasa do obsługi odpowiedzi historii transferów
+ */
 class TransferHistoryResponse {
     private array $transfers;
     private string $error;
+
 
     public function __construct() {
         $this->error = "";
