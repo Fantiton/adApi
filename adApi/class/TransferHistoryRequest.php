@@ -8,7 +8,10 @@ use mysqli;
  */
 class TransferHistoryRequest{
     private $token;
-    
+
+    /**
+     * Konstruktor klasy TransferHistoryRequest
+     */
     public function __construct(){
         $data = file_get_contents('php://input');
         $dataArray = json_decode($data, true);
@@ -16,6 +19,10 @@ class TransferHistoryRequest{
         $this->token = $dataArray['token'];
     }
 
+    /**
+     * Metoda do pobierania tokenu
+     * @return string token
+     */
     public function getToken(){
         return $this->token;
     }
