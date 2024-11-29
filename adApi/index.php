@@ -8,6 +8,8 @@
     require_once("class\LoginResponse.php");
     require_once("class\AccountDetailsRequest.php");
     require_once("class\AccountDetailsResponse.php");
+    require_once("class\TransferHistoryRequest.php");
+    require_once("class\TransferHistoryResponse.php");
 
     use Steampixel\Route;
     use AdApi\Account;
@@ -17,7 +19,9 @@
     use AdApi\LoginRequest;
     use AdApi\LoginResponse;
     use AdApi\AccountDetailsRequest;
-    use AdApi\AccountDetailsResponse;   
+    use AdApi\AccountDetailsResponse;
+    use AdApi\TransferHistoryRequest;
+    use AdApi\TransferHistoryResponse;  
     
     $db = new mysqli('localhost', 'root', '', 'filip_ad_api');
 
@@ -87,6 +91,21 @@
         Transfer::new($sourceArray['accountNo'], $target, $amount, $db);
         header('Status: 200');
         return json_encode(['status' => 'ok']);
+    }, 'post');
+
+    Route::add('/transfer/history', function() use($db) {
+        $request = new TransferHistoryRequest();
+        $response = new TransferHistoryResponse();
+        if(!Token::check($request->getToken(), $_SERVER['REMOTE_ADDR'], $db)){
+            header('HTTP/1.1 401 Unauthorized');
+            return json_encode(['error' => 'Invalid token']);
+        }
+
+        $userId = Token::getUserId($request->getToken(), $db);
+        $accountNo = Account::getAccountNo($userId, $db);
+
+        $response->setTransfers(Transfer::getTransfers($accountNo, $db));
+        $response->send();
     }, 'post');
 
     Route::add('/account/([0-9]*)', function($accountNo) use($db) {
