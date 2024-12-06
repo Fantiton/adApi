@@ -60,6 +60,13 @@
         $response->send();
     }, 'post');
 
+    Route::add('/account/list', function() use($db){
+        $request = new AccountListRequest();
+        $response = new AccountListResponse();
+
+        $accounts = Account::listAccounts($db);
+    });
+
     Route::add('/transfer/new', function() use($db) {
         $data = file_get_contents('php://input');
         $dataArray = json_decode($data, true);
@@ -107,7 +114,7 @@
         $response->setTransfers(Transfer::getTransfers($accountNo, $db));
         $response->send();
     }, 'post');
-
+    
     Route::add('/account/([0-9]*)', function($accountNo) use($db) {
         $account = Account::getAccount($accountNo, $db);
         header('Content-Type: application/json');

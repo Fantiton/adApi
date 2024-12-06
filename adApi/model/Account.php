@@ -67,5 +67,19 @@
             ];
             return $array;
         }
+
+        public function listAccounts($db) : array {
+            $sql = "SELECT accountNo, name FROM accounts JOIN accounts.user_id = user.id WHERE user.email LIKE ?";
+            $query = $db->prepare($sql);  
+            $email = '%' . $input . '%';  
+            $query->bind_param('s', $email);
+            $query->execute();
+            $result = $query->get_result();
+            $accounts = [];
+            while($row = $result->fetch_assoc()){
+                $accounts[] = $row;
+            }
+            return $accounts;
+        }
     }
 ?>
