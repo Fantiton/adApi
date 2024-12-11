@@ -68,8 +68,21 @@
             return $array;
         }
 
-        public function listAccounts($db) : array {
-            $sql = "SELECT accountNo, name FROM accounts JOIN accounts.user_id = user.id WHERE user.email LIKE ?";
+        public static function ifExists(int $accountNo, $db) : bool {
+            $sql = "SELECT * FROM accounts WHERE accountNo = ?";
+            $db->prepare($sql);
+            $sql->bind_param('i', $accountNo);
+            $sql->execute();
+            $result = $sql->get_result();
+            if($result->num_rows > 0){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public static function listAccounts($db, $input) : array {
+            $sql = "SELECT accountNo, name FROM accounts JOIN user ON accounts.user_id = user.id WHERE user.email LIKE ?";
             $query = $db->prepare($sql);  
             $email = '%' . $input . '%';  
             $query->bind_param('s', $email);

@@ -12,9 +12,22 @@ Class AccountListResponse{
     public function setError($error){
         $this->error = $error;
     }
+
+    public function getJSON() {
+        $array = array();
+        $array['accounts'] = $this->accounts;
+        $array['error'] = $this->error;
+        return json_encode($array);
+    }
     
-    public function send(){
-        echo json_encode(array('accounts' => $this->accounts, 'error' => $this->error));
+    public function send() {
+        if($this->error != "") {
+            header('HTTP/1.1 401 Unauthorized');
+        } else {
+            header('HTTP/1.1 200 OK');
+        }
+        header('Content-Type: application/json');
+        echo $this->getJSON();
     }
 }
 ?>

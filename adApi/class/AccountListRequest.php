@@ -15,5 +15,9 @@ Class AccountListRequest {
         $dataArary = json_decode($data, true);
         $this->input = $dataArary['input'];
     }
+
+    public function getInput(){
+        return $this->input;
+    }
 }
 ?>

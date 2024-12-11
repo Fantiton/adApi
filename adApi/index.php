@@ -10,6 +10,8 @@
     require_once("class\AccountDetailsResponse.php");
     require_once("class\TransferHistoryRequest.php");
     require_once("class\TransferHistoryResponse.php");
+    require_once("class\AccountListRequest.php");
+    require_once("class\AccountListResponse.php");
 
     use Steampixel\Route;
     use AdApi\Account;
@@ -22,6 +24,8 @@
     use AdApi\AccountDetailsResponse;
     use AdApi\TransferHistoryRequest;
     use AdApi\TransferHistoryResponse;  
+    use AdApi\AccountListRequest;
+    use AdApi\AccountListResponse;
     
     $db = new mysqli('localhost', 'root', '', 'filip_ad_api');
 
@@ -60,12 +64,14 @@
         $response->send();
     }, 'post');
 
-    Route::add('/account/list', function() use($db){
+    Route::add('/account/list', function() use($db) {
         $request = new AccountListRequest();
         $response = new AccountListResponse();
 
-        $accounts = Account::listAccounts($db);
-    });
+        $accounts = Account::listAccounts($db, $request->getInput());
+        $response->setAccounts($accounts);
+        $response->send();
+    }, 'post');
 
     Route::add('/transfer/new', function() use($db) {
         $data = file_get_contents('php://input');
