@@ -68,6 +68,9 @@
             return $array;
         }
 
+        /**
+         * Sprawdza czy konto istnieje
+         */
         public static function ifExists(int $accountNo, $db) : bool {
             $sql = "SELECT * FROM accounts WHERE accountNo = ?";
             $db->prepare($sql);
