@@ -81,8 +81,16 @@
             }
         }
 
+
+        /**
+         * List accounts by email
+         * @param mysqli $db Database connection
+         * @param string $input Email to search for
+         * 
+         * @return array List of accounts
+         */
         public static function listAccounts($db, $input) : array {
-            $sql = "SELECT accountNo, name FROM accounts JOIN user ON accounts.user_id = user.id WHERE user.email LIKE ?";
+            $sql = "SELECT accountNo, email FROM accounts JOIN user ON accounts.user_id = user.id WHERE user.email LIKE ?";
             $query = $db->prepare($sql);  
             $email = '%' . $input . '%';  
             $query->bind_param('s', $email);
